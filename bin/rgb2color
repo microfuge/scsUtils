@@ -1,0 +1,24 @@
+#!/bin/bash
+#Displays color from R,G,B value inputted as stdin (multiple) or as an argument 
+
+usage () {
+	echo 'Usage cat <colors.txt> |rgb2color'
+	echo 'Usage rgb2color <R,G,B> <R,G,B>'
+	echo 'Example cat colors.txt|rgb2color'
+	echo 'Example rgb2color 255,0,0 0,255,0'
+}
+
+if [ -t 0 ]; then
+	if [[ $# -eq 0 ]];then
+		usage
+	fi
+	for i in "$@";do
+		i=${i//,/;}
+		echo  -e '\e[48;2;'"${i}"'m               \e[0m'
+	done
+else
+	while read LINE;do
+		LINE=${LINE//,/;}
+		echo  -e '\e[48;2;'"${LINE}"'m               \e[0m'
+	done
+fi
